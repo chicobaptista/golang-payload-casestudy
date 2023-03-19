@@ -1,11 +1,12 @@
 package usecases
 
 import (
+	"chicobaptista.github.com/entities"
 	"testing"
 )
 
 func TestAddSalariedEmployee(t *testing.T) {
-	er := EmployeeRepositoryImp{make(map[int]Employee)}
+	er := EmployeeRepositoryImp{make(map[int]entities.Employee)}
 
 	empId := 1
 	var tx Transaction

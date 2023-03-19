@@ -1,5 +1,7 @@
 package usecases
 
+import "chicobaptista.github.com/entities"
+
 type AddSalariedEmployee struct {
 	Id      int
 	Name    string
@@ -9,6 +11,6 @@ type AddSalariedEmployee struct {
 }
 
 func (tx AddSalariedEmployee) Execute() (success bool, err error) {
-	tx.eRepo.AddEmployee(Employee{tx.Id, tx.Name})
+	tx.eRepo.AddEmployee(entities.Employee{tx.Id, tx.Name})
 	return true, nil
 }

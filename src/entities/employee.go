@@ -1,4 +1,4 @@
-package usecases
+package entities
 
 type Employee struct {
 	Id   int
