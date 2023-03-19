@@ -1,12 +1,12 @@
 package usecases
 
 import (
-	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/repositories"
 	"testing"
 )
 
 func TestAddSalariedEmployee(t *testing.T) {
-	er := EmployeeRepositoryImp{make(map[int]entities.Employee)}
+	er := repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	var tx Transaction
@@ -14,7 +14,7 @@ func TestAddSalariedEmployee(t *testing.T) {
 	tx.Execute()
 	e := er.GetEmployee(empId)
 	if e.Name != "Bob" {
-		t.Fatalf(`AddSalariedEmployee failed to persist Employee Data properly, want Name to be %q, got %v`, "Bob", e.Name)
+		t.Fatalf(`Failed to persist Employee Data properly, want Name to be %q, got %v`, "Bob", e.Name)
 	}
 
 }

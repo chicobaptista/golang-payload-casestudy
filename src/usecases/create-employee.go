@@ -1,6 +1,8 @@
 package usecases
 
-import "chicobaptista.github.com/entities"
+import (
+	"chicobaptista.github.com/entities"
+)
 
 type AddSalariedEmployee struct {
 	Id      int
