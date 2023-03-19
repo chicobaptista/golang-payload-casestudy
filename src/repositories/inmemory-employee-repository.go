@@ -11,7 +11,7 @@ func (er InMemoryEmployeeRepository) GetEmployee(empId int) entities.Employee {
 }
 
 func (er InMemoryEmployeeRepository) AddEmployee(e entities.Employee) {
-	er.employees[e.Id] = e
+	er.employees[e.GetId()] = e
 }
 
 func MakeInMemoryEmployeeRepository() InMemoryEmployeeRepository {

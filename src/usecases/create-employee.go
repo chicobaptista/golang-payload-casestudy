@@ -8,11 +8,12 @@ type AddSalariedEmployee struct {
 	Id      int
 	Name    string
 	Address string
-	Salary  float32
+	Salary  float64
 	eRepo   EmployeeRepository
 }
 
 func (tx AddSalariedEmployee) Execute() (success bool, err error) {
-	tx.eRepo.AddEmployee(entities.Employee{tx.Id, tx.Name})
+	e := entities.SalariedEmployee{tx.Salary, entities.BaseEmployee{tx.Id, tx.Name}}
+	tx.eRepo.AddEmployee(e)
 	return true, nil
 }

@@ -1,20 +1,36 @@
 package usecases
 
 import (
+	"chicobaptista.github.com/entities"
 	"chicobaptista.github.com/repositories"
+	"math"
 	"testing"
 )
 
 func TestAddSalariedEmployee(t *testing.T) {
-	er := repositories.MakeInMemoryEmployeeRepository()
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
+
 	var tx Transaction
 	tx = AddSalariedEmployee{empId, "Bob", "Home", 1000.00, er}
+
 	tx.Execute()
+
 	e := er.GetEmployee(empId)
-	if e.Name != "Bob" {
-		t.Fatalf(`Failed to persist Employee Data properly, want Name to be %q, got %v`, "Bob", e.Name)
+
+	se, ok := e.(entities.SalariedEmployee)
+	if !ok {
+		t.Fatalf("Failed to persist Employee Data properly, want Employee instance to be of type Salaried")
+	}
+
+	if se.Name != "Bob" {
+		t.Fatalf(`Failed to persist Employee Data properly, want Name to be %q, got %v`, "Bob", se.Name)
+	}
+
+	if diff := math.Abs(1000.00 - se.Salary); diff > 0.001 {
+		t.Fatalf(`Failed to persist Employee Data properly, want Salary to be %f, got %f`, 1000.00, se.Salary)
 	}
 
 }
