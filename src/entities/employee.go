@@ -5,8 +5,9 @@ type Employee interface {
 }
 
 type BaseEmployee struct {
-	Id   int
-	Name string
+	Id      int
+	Name    string
+	Address string
 }
 
 func (e BaseEmployee) GetId() int {

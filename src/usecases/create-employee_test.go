@@ -29,8 +29,14 @@ func TestAddSalariedEmployee(t *testing.T) {
 		t.Fatalf(`Failed to persist Employee Data properly, want Name to be %q, got %v`, "Bob", se.Name)
 	}
 
+	if se.Address != "Home" {
+		t.Fatalf(`Failed to persist Employee Data properly, want Address to be %q, got %v`, "Home", se.Address)
+	}
+
 	if diff := math.Abs(1000.00 - se.Salary); diff > 0.001 {
 		t.Fatalf(`Failed to persist Employee Data properly, want Salary to be %f, got %f`, 1000.00, se.Salary)
 	}
+
+	// sch, ok := se.PaymentSchedule
 
 }
