@@ -13,12 +13,3 @@ type BaseEmployee struct {
 func (e BaseEmployee) GetId() int {
 	return e.Id
 }
-
-type SalariedEmployee struct {
-	Salary float64
-	BaseEmployee
-}
-
-func (e SalariedEmployee) GetId() int {
-	return e.Id
-}
