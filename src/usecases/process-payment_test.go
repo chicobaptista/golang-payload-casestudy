@@ -9,7 +9,7 @@ import (
 func TestIsPaydayForSalariedEmployee(t *testing.T) {
 	se := entities.NewSalariedEmployee(1, "Bob", "Home", 1000.00)
 
-	sch, ok := se.PaymentSchedule.(entities.SalariedPaymentSchedule)
+	sch, ok := se.PaymentSchedule.(entities.MonthlyPaymentSchedule)
 
 	if !ok {
 		t.Fatalf(`Expected Schedule to be Salaried`)
