@@ -14,6 +14,10 @@ func (er InMemoryEmployeeRepository) AddEmployee(e entities.Employee) {
 	er.employees[e.GetId()] = e
 }
 
+func (er InMemoryEmployeeRepository) DeleteEmployee(empId int) {
+	delete(er.employees, empId)
+}
+
 func MakeInMemoryEmployeeRepository() InMemoryEmployeeRepository {
 	return InMemoryEmployeeRepository{make(map[int]entities.Employee)}
 }
