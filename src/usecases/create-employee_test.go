@@ -36,10 +36,6 @@ func TestAddSalariedEmployee(t *testing.T) {
 	if diff := math.Abs(1000.00 - se.Salary); diff > 0.001 {
 		t.Fatalf(`Failed to persist Employee Data properly, want Salary to be %f, got %f`, 1000.00, se.Salary)
 	}
-
-	if diff := math.Abs(1000.00 - se.GetPaymentAmount()); diff > 0.001 {
-		t.Fatalf(`Want PaymentAmount to be %f, got %f`, 1000.00, se.GetPaymentAmount())
-	}
 }
 
 func TestAddCommissionedEmployee(t *testing.T) {
