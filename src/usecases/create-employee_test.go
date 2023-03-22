@@ -72,3 +72,34 @@ func TestAddCommissionedEmployee(t *testing.T) {
 		t.Fatalf(`Failed to persist Employee Data properly, want Commission Rate to be %f, got %f`, 10.00, ce.CommissionRate)
 	}
 }
+
+func TestAddHourlyEmployee(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = AddHourlyEmployee{empId, "Bob", "Home", 15.00, er}
+
+	tx.Execute()
+
+	e := er.GetEmployee(empId)
+
+	he, ok := e.(entities.HourlyEmployee)
+	if !ok {
+		t.Fatalf("Failed to persist Employee Data properly, want Employee instance to be of type Hourly")
+	}
+
+	if he.Name != "Bob" {
+		t.Fatalf(`Failed to persist Employee Data properly, want Name to be %q, got %v`, "Bob", he.Name)
+	}
+
+	if he.Address != "Home" {
+		t.Fatalf(`Failed to persist Employee Data properly, want Address to be %q, got %v`, "Home", he.Address)
+	}
+
+	if diff := math.Abs(15.00 - he.HourlyRate); diff > 0.001 {
+		t.Fatalf(`Failed to persist Employee Data properly, want Hourly Rate to be %f, got %f`, 15.00, he.HourlyRate)
+	}
+}
