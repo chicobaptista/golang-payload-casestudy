@@ -1,5 +1,7 @@
 package entities
 
+import "time"
+
 type SalariedEmployee struct {
 	BaseEmployee
 	Salary          float64
@@ -13,6 +15,9 @@ func NewSalariedEmployee(id int, name string, address string, salary float64) Sa
 type SalariedPaymentSchedule struct {
 }
 
-func (sch SalariedPaymentSchedule) IsPayday() bool {
-	return true
+func (sch SalariedPaymentSchedule) IsPayday(date time.Time) bool {
+	isFriday := date.Weekday() == time.Friday
+	SEVEN_DAYS := time.Hour * 24 * 7
+	isLastFriday := isFriday && date.Add(SEVEN_DAYS).Month() != date.Month()
+	return isLastFriday
 }
