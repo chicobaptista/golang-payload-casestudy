@@ -17,3 +17,18 @@ func (tx AddSalariedEmployee) Execute() (success bool, err error) {
 	tx.eRepo.AddEmployee(e)
 	return true, nil
 }
+
+type AddCommissionedEmployee struct {
+	Id             int
+	Name           string
+	Address        string
+	Salary         float64
+	CommissionRate float64
+	eRepo          EmployeeRepository
+}
+
+func (tx AddCommissionedEmployee) Execute() (success bool, err error) {
+	e := entities.NewCommissionedEmployee(tx.Id, tx.Name, tx.Address, tx.Salary, tx.CommissionRate)
+	tx.eRepo.AddEmployee(e)
+	return true, nil
+}
