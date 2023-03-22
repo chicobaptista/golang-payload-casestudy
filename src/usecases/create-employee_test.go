@@ -37,6 +37,10 @@ func TestAddSalariedEmployee(t *testing.T) {
 		t.Fatalf(`Failed to persist Employee Data properly, want Salary to be %f, got %f`, 1000.00, se.Salary)
 	}
 
-	// sch, ok := se.PaymentSchedule
+	_, ok = se.PaymentSchedule.(entities.SalariedPaymentSchedule)
+
+	if !ok {
+		t.Fatalf(`Expected Schedule to be Salaried`)
+	}
 
 }

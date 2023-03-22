@@ -1,6 +1,14 @@
 package entities
 
 type SalariedEmployee struct {
-	Salary float64
 	BaseEmployee
+	Salary          float64
+	PaymentSchedule PaymentSchedule
+}
+
+type SalariedPaymentSchedule struct {
+}
+
+func (sch SalariedPaymentSchedule) IsPayday() bool {
+	return true
 }
