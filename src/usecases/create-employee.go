@@ -13,7 +13,7 @@ type AddSalariedEmployee struct {
 }
 
 func (tx AddSalariedEmployee) Execute() (success bool, err error) {
-	e := entities.SalariedEmployee{entities.BaseEmployee{tx.Id, tx.Name, tx.Address}, tx.Salary, entities.SalariedPaymentSchedule{}}
+	e := entities.NewSalariedEmployee(tx.Id, tx.Name, tx.Address, tx.Salary)
 	tx.eRepo.AddEmployee(e)
 	return true, nil
 }
