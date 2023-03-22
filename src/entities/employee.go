@@ -2,7 +2,6 @@ package entities
 
 type Employee interface {
 	GetId() int
-	GetPaymentAmount() float64
 }
 
 type BaseEmployee struct {
