@@ -7,8 +7,9 @@ type InMemoryEmployeeRepository struct {
 	unionMembers map[int]entities.UnionMember
 }
 
-func (er InMemoryEmployeeRepository) GetEmployee(empId int) entities.Employee {
-	return er.employees[empId]
+func (er InMemoryEmployeeRepository) GetEmployee(empId int) (entities.Employee, bool) {
+	e, ok := er.employees[empId]
+	return e, ok
 }
 
 func (er InMemoryEmployeeRepository) AddEmployee(e entities.Employee) {

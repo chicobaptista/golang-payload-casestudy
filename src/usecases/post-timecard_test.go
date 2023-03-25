@@ -21,8 +21,8 @@ func TestPostTimecardToHourlyEmployee(t *testing.T) {
 	tx = PostTimecard{empId, time.Date(2023, 3, 31, 12, 30, 30, 100, time.Local), 6.00, er}
 
 	tx.Execute()
-
-	he, _ := er.GetEmployee(empId).(entities.HourlyEmployee)
+	fe, _ := er.GetEmployee(empId)
+	he := fe.(entities.HourlyEmployee)
 
 	tcs := he.Timecards
 

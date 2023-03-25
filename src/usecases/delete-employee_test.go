@@ -19,7 +19,7 @@ func TestDeleteExistingEmployee(t *testing.T) {
 	tx = DeleteEmployee{empId, er}
 	tx.Execute()
 
-	e := er.GetEmployee(empId)
+	e, _ := er.GetEmployee(empId)
 
 	if e != nil {
 		t.Fatalf("Failed to delete Employee Data properly")

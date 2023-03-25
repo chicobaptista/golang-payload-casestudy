@@ -11,8 +11,8 @@ type DeleteEmployee struct {
 }
 
 func (tx DeleteEmployee) Execute() (bool, error) {
-	e := tx.eRepo.GetEmployee(tx.Id)
-	if e == nil {
+	_, ok := tx.eRepo.GetEmployee(tx.Id)
+	if !ok {
 		return false, errors.New(fmt.Sprintf(`Employee %d not found`, tx.Id))
 	}
 	tx.eRepo.DeleteEmployee(tx.Id)

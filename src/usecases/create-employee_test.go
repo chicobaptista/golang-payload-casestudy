@@ -18,7 +18,7 @@ func TestAddSalariedEmployee(t *testing.T) {
 
 	tx.Execute()
 
-	e := er.GetEmployee(empId)
+	e, _ := er.GetEmployee(empId)
 
 	se, ok := e.(entities.SalariedEmployee)
 	if !ok {
@@ -49,7 +49,7 @@ func TestAddCommissionedEmployee(t *testing.T) {
 
 	tx.Execute()
 
-	e := er.GetEmployee(empId)
+	e, _ := er.GetEmployee(empId)
 
 	ce, ok := e.(entities.CommissionedEmployee)
 	if !ok {
@@ -84,7 +84,7 @@ func TestAddHourlyEmployee(t *testing.T) {
 
 	tx.Execute()
 
-	e := er.GetEmployee(empId)
+	e, _ := er.GetEmployee(empId)
 
 	he, ok := e.(entities.HourlyEmployee)
 	if !ok {

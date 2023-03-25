@@ -16,7 +16,11 @@ type PostTimecard struct {
 }
 
 func (tx PostTimecard) Execute() (bool, error) {
-	e := tx.eRepo.GetEmployee(tx.EmpId)
+	e, ok := tx.eRepo.GetEmployee(tx.EmpId)
+	if !ok {
+		return false, errors.New(fmt.Sprintf(`Employee %d not found`, tx.EmpId))
+
+	}
 	he, ok := e.(entities.HourlyEmployee)
 	if !ok {
 		return false, errors.New(fmt.Sprintf(`Employee %d is not an Hourly Employee`, tx.EmpId))
