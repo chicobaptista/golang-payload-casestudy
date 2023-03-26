@@ -16,5 +16,5 @@ type SaleReceipt struct {
 }
 
 func NewCommissionedEmployee(id int, name string, address string, salary float64, commissionRate float64) CommissionedEmployee {
-	return CommissionedEmployee{BaseEmployee{id, name, address, HoldingPaymentMethod{}, 0}, salary, commissionRate, MonthlyPaymentSchedule{}, make([]SaleReceipt, 0)}
+	return CommissionedEmployee{BaseEmployee{id, name, address, HoldingPaymentMethod{}, NullAffiliation{}}, salary, commissionRate, MonthlyPaymentSchedule{}, make([]SaleReceipt, 0)}
 }

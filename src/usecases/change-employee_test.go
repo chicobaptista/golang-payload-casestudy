@@ -14,7 +14,7 @@ func TestChangeEmployeeName(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeName{empId, "Jeff", er}
@@ -50,7 +50,7 @@ func TestChangeEmployeeAddress(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeAddress{empId, "Work", er}
@@ -86,7 +86,7 @@ func TestChangeEmployeeToHourly(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToHourly{empId, 15.00, er}
@@ -131,7 +131,7 @@ func TestChangeEmployeeToSalaried(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
@@ -172,7 +172,7 @@ func TestChangeEmployeeToCommissioned(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
@@ -221,7 +221,7 @@ func TestChangeEmployeeToHoldingPaymentMethod(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToHolding{empId, er}
@@ -259,7 +259,7 @@ func TestChangeEmployeeToMailPaymentMethod(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToMail{empId, "Work", er}
@@ -302,7 +302,7 @@ func TestChangeEmployeeToDirectPaymentMethod(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.NullAffiliation{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToDirect{empId, "Agency", "Account", er}
@@ -349,7 +349,7 @@ func TestChangeEmployeeToUnionMember(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.NullAffiliation{}})
 	unionId := 86
 
 	var tx Transaction
@@ -391,7 +391,7 @@ func TestChangeEmployeeToUnionMemberOfAlreadyMember(t *testing.T) {
 	empId := 1
 
 	unionId := 86
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, unionId})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.UnionAffiliation{unionId}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
@@ -410,7 +410,7 @@ func TestChangeEmployeeToUnionMemberOfExistingMemberId(t *testing.T) {
 	empId := 1
 
 	unionId := 86
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.NullAffiliation{}})
 	er.PutUnionMember(entities.UnionMember{unionId, 10.00, make([]entities.UnionCharge, 0)})
 
 	var tx Transaction

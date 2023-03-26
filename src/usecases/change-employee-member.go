@@ -20,7 +20,8 @@ func (tx ChangeEmployeeToMember) Execute() (bool, error) {
 		return false, errors.New(fmt.Sprintf(`Employee %d not found`, tx.EmpId))
 	}
 	be, _ := e.(entities.BaseEmployee)
-	if be.Affiliation != 0 {
+	_, ok = be.Affiliation.(entities.NullAffiliation)
+	if !ok {
 		return false, errors.New(fmt.Sprintf(`Employee %d is already a Member`, tx.EmpId))
 	}
 	_, ok = tx.eRepo.GetUnionMember(tx.MemberId)
@@ -28,7 +29,7 @@ func (tx ChangeEmployeeToMember) Execute() (bool, error) {
 		return false, errors.New(fmt.Sprintf(`Member %d is already registered`, tx.MemberId))
 	}
 
-	be.Affiliation = tx.MemberId
+	be.Affiliation = entities.UnionAffiliation{tx.MemberId}
 	um := entities.NewUnionMember(tx.MemberId, tx.Dues)
 
 	tx.eRepo.PutUnionMember(um)
