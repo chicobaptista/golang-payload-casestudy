@@ -17,7 +17,7 @@ type TimeCard struct {
 }
 
 func NewHourlyEmployee(id int, name string, address string, hourlyRate float64) HourlyEmployee {
-	return HourlyEmployee{BaseEmployee{id, name, address, HoldingPaymentMethod{}}, hourlyRate, WeeklyPaymentSchedule{}, make([]TimeCard, 0)}
+	return HourlyEmployee{BaseEmployee{id, name, address, HoldingPaymentMethod{}, 0}, hourlyRate, WeeklyPaymentSchedule{}, make([]TimeCard, 0)}
 }
 
 type WeeklyPaymentSchedule struct {

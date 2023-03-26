@@ -9,6 +9,7 @@ type BaseEmployee struct {
 	Name          string
 	Address       string
 	PaymentMethod PaymentMethod
+	Affiliation   int
 }
 
 func (e BaseEmployee) GetId() int {

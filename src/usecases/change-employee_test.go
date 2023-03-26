@@ -14,7 +14,7 @@ func TestChangeEmployeeName(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeName{empId, "Jeff", er}
@@ -50,7 +50,7 @@ func TestChangeEmployeeAddress(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeAddress{empId, "Work", er}
@@ -86,7 +86,7 @@ func TestChangeEmployeeToHourly(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeToHourly{empId, 15.00, er}
@@ -131,7 +131,7 @@ func TestChangeEmployeeToSalaried(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
@@ -172,7 +172,7 @@ func TestChangeEmployeeToCommissioned(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
@@ -221,7 +221,7 @@ func TestChangeEmployeeToHoldingPaymentMethod(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeToHolding{empId, er}
@@ -259,7 +259,7 @@ func TestChangeEmployeeToMailPaymentMethod(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeToMail{empId, "Work", er}
@@ -302,7 +302,7 @@ func TestChangeEmployeeToDirectPaymentMethod(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
 
 	var tx Transaction
 	tx = ChangeEmployeeToDirect{empId, "Agency", "Account", er}
@@ -341,5 +341,84 @@ func TestChangeEmployeeToDirectPaymentMethodOfNonExisting(t *testing.T) {
 
 	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
 		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
+	}
+}
+
+func TestChangeEmployeeToUnionMember(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	unionId := 86
+
+	var tx Transaction
+	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
+
+	tx.Execute()
+
+	unionEmp, _ := er.GetUnionMember(unionId)
+	if len(unionEmp.Charges) != 0 {
+		t.Fatalf("Should not have any Union Charges Recorded with the Union Member")
+	}
+	if diff := math.Abs(100.00 - unionEmp.Dues); diff > 0.001 {
+		t.Fatalf(`Failed to persist Union Member properly, want Dues to be %.2f, got %.2f`, 100.00, unionEmp.Dues)
+	}
+
+}
+
+func TestChangeEmployeeToUnionMemberOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	unionId := 86
+
+	var tx Transaction
+	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the Affiliation of a Non-Existing Employee.")
+	}
+}
+
+func TestChangeEmployeeToUnionMemberOfAlreadyMember(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	unionId := 86
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, unionId})
+
+	var tx Transaction
+	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d is already a Member`, empId)) {
+		t.Fatalf("Should not Change the Affiliation of an Employee that is already affiliated.")
+	}
+}
+
+func TestChangeEmployeeToUnionMemberOfExistingMemberId(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	unionId := 86
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, 0})
+	er.PutUnionMember(entities.UnionMember{unionId, 10.00, make([]entities.UnionCharge, 0)})
+
+	var tx Transaction
+	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Member %d is already registered`, unionId)) {
+		t.Fatalf("Should not Affiliate an Employee with the Id of an existing Member")
 	}
 }
