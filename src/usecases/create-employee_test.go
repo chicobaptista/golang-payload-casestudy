@@ -71,6 +71,10 @@ func TestAddCommissionedEmployee(t *testing.T) {
 	if diff := math.Abs(10.00 - ce.CommissionRate); diff > 0.001 {
 		t.Fatalf(`Failed to persist Employee Data properly, want Commission Rate to be %f, got %f`, 10.00, ce.CommissionRate)
 	}
+
+	if len(ce.SaleReceipts) != 0 {
+		t.Fatalf("Should not start with any Sale Receipts associated")
+	}
 }
 
 func TestAddHourlyEmployee(t *testing.T) {
