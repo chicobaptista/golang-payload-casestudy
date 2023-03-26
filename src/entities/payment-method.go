@@ -12,6 +12,7 @@ func (pm HoldingPaymentMethod) PostPayment() error {
 }
 
 type MailPaymentMethod struct {
+	Address string
 }
 
 func (pm MailPaymentMethod) PostPayment() error {
