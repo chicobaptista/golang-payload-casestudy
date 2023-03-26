@@ -45,3 +45,41 @@ func TestChangeEmployeeNameOfNonExisting(t *testing.T) {
 	}
 
 }
+
+func TestChangeEmployeeAddress(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+
+	var tx Transaction
+	tx = ChangeEmployeeAddress{empId, "Work", er}
+
+	tx.Execute()
+
+	e, _ := er.GetEmployee(empId)
+	be := e.(entities.BaseEmployee)
+
+	if be.Address != "Work" {
+		t.Fatalf(`Failed to change Employee Address, want %s, got %s`, "Work", be.Address)
+	}
+
+}
+
+func TestChangeEmployeeAddressOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = ChangeEmployeeAddress{empId, "Work", er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the address of a Non-Existing Employee.")
+	}
+
+}
