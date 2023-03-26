@@ -296,3 +296,50 @@ func TestChangeEmployeeToMailPaymentMethodOfNonExisting(t *testing.T) {
 		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
 	}
 }
+
+func TestChangeEmployeeToDirectPaymentMethod(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}})
+
+	var tx Transaction
+	tx = ChangeEmployeeToDirect{empId, "Agency", "Account", er}
+
+	tx.Execute()
+
+	e, _ := er.GetEmployee(empId)
+	be, _ := e.(entities.BaseEmployee)
+
+	pm, ok := be.PaymentMethod.(entities.DirectPaymentMethod)
+
+	if !ok {
+		t.Fatalf("Failed to persist Employee Data properly, want Employee Payment method to be of type Mail")
+	}
+
+	if pm.Agency != "Agency" {
+		t.Fatalf(`Failed to persist Employee Data properly, want Payment Agency to be %s, got %s`, "Agency", pm.Agency)
+
+	}
+	if pm.Account != "Account" {
+		t.Fatalf(`Failed to persist Employee Data properly, want Payment Account to be %s, got %s`, "Account", pm.Account)
+
+	}
+}
+
+func TestChangeEmployeeToDirectPaymentMethodOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = ChangeEmployeeToDirect{empId, "Agency", "Account", er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
+	}
+}

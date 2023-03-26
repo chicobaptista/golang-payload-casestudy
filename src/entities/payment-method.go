@@ -18,3 +18,12 @@ type MailPaymentMethod struct {
 func (pm MailPaymentMethod) PostPayment() error {
 	return nil
 }
+
+type DirectPaymentMethod struct {
+	Agency  string
+	Account string
+}
+
+func (pm DirectPaymentMethod) PostPayment() error {
+	return nil
+}
