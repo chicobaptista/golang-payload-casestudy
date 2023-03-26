@@ -172,3 +172,53 @@ func TestChangeEmployeeToSalariedOfNonExisting(t *testing.T) {
 	}
 
 }
+
+func TestChangeEmployeeToCommissioned(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+
+	var tx Transaction
+	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
+
+	tx.Execute()
+
+	e, _ := er.GetEmployee(empId)
+
+	ce, ok := e.(entities.CommissionedEmployee)
+
+	if !ok {
+		t.Fatalf("Failed to change employee to Commisssioned")
+	}
+
+	if diff := math.Abs(1000.00 - ce.Salary); diff > 0.001 {
+		t.Fatalf(`Failed to persist Employee Data properly, want Hourly Rate to be %f, got %f`, 1000.00, ce.Salary)
+	}
+
+	if diff := math.Abs(10.00 - ce.CommissionRate); diff > 0.001 {
+		t.Fatalf(`Failed to persist Employee Data properly, want Commission Rate to be %f, got %f`, 10.00, ce.CommissionRate)
+	}
+
+	if len(ce.SaleReceipts) != 0 {
+		t.Fatalf("Should not start with any Sale Receipts associated")
+	}
+}
+
+func TestChangeEmployeeToCommissionedOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
+	}
+
+}
