@@ -130,3 +130,45 @@ func TestChangeEmployeeToHourlyOfNonExisting(t *testing.T) {
 	}
 
 }
+
+func TestChangeEmployeeToSalaried(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+
+	var tx Transaction
+	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
+
+	tx.Execute()
+
+	e, _ := er.GetEmployee(empId)
+
+	se, ok := e.(entities.SalariedEmployee)
+
+	if !ok {
+		t.Fatalf("Failed to change employee to Salaried")
+	}
+
+	if diff := math.Abs(1000.00 - se.Salary); diff > 0.001 {
+		t.Fatalf(`Failed to persist Employee Data properly, want Salary to be %f, got %f`, 1000.00, se.Salary)
+	}
+}
+
+func TestChangeEmployeeToSalariedOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
+	}
+
+}
