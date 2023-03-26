@@ -14,7 +14,7 @@ func TestChangeEmployeeName(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeName{empId, "Jeff", er}
@@ -27,7 +27,6 @@ func TestChangeEmployeeName(t *testing.T) {
 	if be.Name != "Jeff" {
 		t.Fatalf(`Failed to change Employee Name, want %s, got %s`, "Jeff", be.Name)
 	}
-
 }
 
 func TestChangeEmployeeNameOfNonExisting(t *testing.T) {
@@ -44,7 +43,6 @@ func TestChangeEmployeeNameOfNonExisting(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
 		t.Fatalf("Should not Change the name of a Non-Existing Employee.")
 	}
-
 }
 
 func TestChangeEmployeeAddress(t *testing.T) {
@@ -52,7 +50,7 @@ func TestChangeEmployeeAddress(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeAddress{empId, "Work", er}
@@ -65,7 +63,6 @@ func TestChangeEmployeeAddress(t *testing.T) {
 	if be.Address != "Work" {
 		t.Fatalf(`Failed to change Employee Address, want %s, got %s`, "Work", be.Address)
 	}
-
 }
 
 func TestChangeEmployeeAddressOfNonExisting(t *testing.T) {
@@ -82,7 +79,6 @@ func TestChangeEmployeeAddressOfNonExisting(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
 		t.Fatalf("Should not Change the address of a Non-Existing Employee.")
 	}
-
 }
 
 func TestChangeEmployeeToHourly(t *testing.T) {
@@ -90,7 +86,7 @@ func TestChangeEmployeeToHourly(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToHourly{empId, 15.00, er}
@@ -128,7 +124,6 @@ func TestChangeEmployeeToHourlyOfNonExisting(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
 		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
 	}
-
 }
 
 func TestChangeEmployeeToSalaried(t *testing.T) {
@@ -136,7 +131,7 @@ func TestChangeEmployeeToSalaried(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
@@ -170,7 +165,6 @@ func TestChangeEmployeeToSalariedOfNonExisting(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
 		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
 	}
-
 }
 
 func TestChangeEmployeeToCommissioned(t *testing.T) {
@@ -178,7 +172,7 @@ func TestChangeEmployeeToCommissioned(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
-	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home"})
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.HoldingPaymentMethod{}})
 
 	var tx Transaction
 	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
@@ -220,5 +214,42 @@ func TestChangeEmployeeToCommissionedOfNonExisting(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
 		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
 	}
+}
 
+func TestChangeEmployeeToHoldingPaymentMethod(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}})
+
+	var tx Transaction
+	tx = ChangeEmployeeToHolding{empId, er}
+
+	tx.Execute()
+
+	e, _ := er.GetEmployee(empId)
+	be, _ := e.(entities.BaseEmployee)
+
+	_, ok := be.PaymentMethod.(entities.HoldingPaymentMethod)
+
+	if !ok {
+		t.Fatalf("Failed to persist Employee Data properly, want Employee Payment method to be of type Holding")
+	}
+}
+
+func TestChangeEmployeeToHoldingPaymentMethodOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = ChangeEmployeeToHolding{empId, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the Category of a Non-Existing Employee.")
+	}
 }
