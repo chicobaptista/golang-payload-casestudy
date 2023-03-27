@@ -422,3 +422,59 @@ func TestChangeEmployeeToUnionMemberOfExistingMemberId(t *testing.T) {
 		t.Fatalf("Should not Affiliate an Employee with the Id of an existing Member")
 	}
 }
+
+func TestChangeEmployeeRemoveUnionMember(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+	unionId := 86
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.UnionAffiliation{unionId}})
+	er.PutUnionMember(entities.UnionMember{unionId, 10.00, make([]entities.UnionCharge, 0)})
+
+	var tx Transaction
+	tx = ChangeEmployeeRemoveMember{empId, er}
+
+	tx.Execute()
+	e, _ := er.GetEmployee(empId)
+	be, _ := e.(entities.BaseEmployee)
+
+	_, ok := be.Affiliation.(entities.NullAffiliation)
+	if !ok {
+		t.Fatalf(`Failed to persist Employee Data properly, want Affiliation to be Null`)
+	}
+}
+
+func TestChangeEmployeeRemoveUnionMemberOfNonExisting(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	var tx Transaction
+	tx = ChangeEmployeeRemoveMember{empId, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d not found`, empId)) {
+		t.Fatalf("Should not Change the Affiliation of a Non-Existing Employee.")
+	}
+}
+
+func TestChangeEmployeeRemoveUnionMemberOfNonMember(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	er.AddEmployee(entities.BaseEmployee{empId, "Bob", "Home", entities.MailPaymentMethod{}, entities.NullAffiliation{}})
+
+	var tx Transaction
+	tx = ChangeEmployeeRemoveMember{empId, er}
+
+	_, err := tx.Execute()
+
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf(`Employee %d is not a Member`, empId)) {
+		t.Fatalf("Should not Change the Affiliation of an Employee that is already affiliated.")
+	}
+}

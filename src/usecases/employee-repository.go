@@ -8,4 +8,5 @@ type EmployeeRepository interface {
 	DeleteEmployee(empId int)
 	GetUnionMember(memberId int) (entities.UnionMember, bool)
 	PutUnionMember(um entities.UnionMember)
+	DeleteUnionMember(unionId int)
 }

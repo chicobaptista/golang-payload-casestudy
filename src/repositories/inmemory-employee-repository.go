@@ -29,6 +29,10 @@ func (er InMemoryEmployeeRepository) PutUnionMember(um entities.UnionMember) {
 	er.unionMembers[um.Id] = um
 }
 
+func (er InMemoryEmployeeRepository) DeleteUnionMember(memberId int) {
+	delete(er.unionMembers, memberId)
+}
+
 func MakeInMemoryEmployeeRepository() InMemoryEmployeeRepository {
 	return InMemoryEmployeeRepository{make(map[int]entities.Employee), make(map[int]entities.UnionMember)}
 }
