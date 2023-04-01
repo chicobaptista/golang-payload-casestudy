@@ -27,11 +27,16 @@ func getTotalHoursWorked(tcs []TimeCard) float64 {
 	var hoursWorked float64
 	for _, tc := range tcs {
 		hoursWorked += tc.Hours
-		if tc.Hours > MAX_WORK_HOURS {
-			hoursWorked += (tc.Hours - MAX_WORK_HOURS) * OVERTIME_EXTRA_RATE
-		}
+		hoursWorked += addOvertimeRateIfNeeded(tc.Hours)
 	}
 	return hoursWorked
+}
+
+func addOvertimeRateIfNeeded(hours float64) float64 {
+	if hours > MAX_WORK_HOURS {
+		return (hours - MAX_WORK_HOURS) * OVERTIME_EXTRA_RATE
+	}
+	return 0
 }
 
 func NewHourlyEmployee(id int, name string, address string, hourlyRate float64) HourlyEmployee {
