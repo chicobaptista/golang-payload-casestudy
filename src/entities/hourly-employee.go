@@ -19,10 +19,10 @@ var MAX_WORK_HOURS = 8.00
 var OVERTIME_EXTRA_RATE = 0.5
 
 func (e HourlyEmployee) GetPayment() float64 {
-	return getTotalHoursWorked(e.Timecards) * e.HourlyRate
+	return getTotalPayableHoursWorked(e.Timecards) * e.HourlyRate
 }
 
-func getTotalHoursWorked(tcs []TimeCard) float64 {
+func getTotalPayableHoursWorked(tcs []TimeCard) float64 {
 	var hoursWorked float64
 	for _, tc := range tcs {
 		hoursWorked += tc.Hours
