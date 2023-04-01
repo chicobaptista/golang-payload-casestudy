@@ -6,6 +6,8 @@ type EmployeeRepository interface {
 	GetEmployee(empId int) (entities.Employee, bool)
 	AddEmployee(e entities.Employee)
 	DeleteEmployee(empId int)
+	GetAllEmployeeIds() []int
+
 	GetUnionMember(memberId int) (entities.UnionMember, bool)
 	PutUnionMember(um entities.UnionMember)
 	DeleteUnionMember(unionId int)

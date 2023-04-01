@@ -20,6 +20,16 @@ func (er InMemoryEmployeeRepository) DeleteEmployee(empId int) {
 	delete(er.employees, empId)
 }
 
+func (er InMemoryEmployeeRepository) GetAllEmployeeIds() []int {
+	empids := make([]int, len(er.employees))
+	i := 0
+	for k := range er.employees {
+		empids[i] = k
+		i++
+	}
+	return empids
+}
+
 func (er InMemoryEmployeeRepository) GetUnionMember(memberId int) (entities.UnionMember, bool) {
 	m, ok := er.unionMembers[memberId]
 	return m, ok
