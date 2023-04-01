@@ -15,3 +15,11 @@ func (sch MonthlyPaymentSchedule) IsPayday(date time.Time) bool {
 	isLastFriday := isFriday && date.Add(SEVEN_DAYS).Month() != date.Month()
 	return isLastFriday
 }
+
+type WeeklyPaymentSchedule struct {
+}
+
+func (sch WeeklyPaymentSchedule) IsPayday(date time.Time) bool {
+	isFriday := date.Weekday() == time.Friday
+	return isFriday
+}

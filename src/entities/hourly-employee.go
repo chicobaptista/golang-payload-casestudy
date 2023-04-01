@@ -41,10 +41,3 @@ func addOvertimeRateIfNeeded(hours float64) float64 {
 func NewHourlyEmployee(id int, name string, address string, hourlyRate float64) HourlyEmployee {
 	return HourlyEmployee{BaseEmployee{id, name, address, HoldingPaymentMethod{}, NullAffiliation{}, WeeklyPaymentSchedule{}}, hourlyRate, make([]TimeCard, 0)}
 }
-
-type WeeklyPaymentSchedule struct {
-}
-
-func (sch WeeklyPaymentSchedule) IsPayday(date time.Time) bool {
-	return true
-}

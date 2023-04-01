@@ -86,6 +86,27 @@ func TestRunPayrollOneHourlyEmployeeNoOvertimeNoDeductions(t *testing.T) {
 	}
 }
 
+func TestRunPayrollOneHourlyEmployeeOutsidePaymentDate(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	er.AddEmployee(entities.NewHourlyEmployee(empId, "Bob", "Home", 15.00))
+	PostTimecard{empId, time.Date(2023, 3, 30, 12, 30, 30, 100, time.Local), 6.00, er}.Execute()
+
+	tx := RunPayroll{time.Date(2023, 3, 30, 12, 30, 30, 100, time.Local), make(map[int]Paycheck), er}
+
+	tx.Execute()
+
+	pr := tx.Payroll
+
+	if len(pr) != 0 {
+		t.Fatalf("Failed to process Payroll, expected to have no entries")
+	}
+
+}
+
 func TestRunPayrollOneHourlyEmployeeMultipleTimecardsNoOvertimeNoDeductions(t *testing.T) {
 	var er EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
