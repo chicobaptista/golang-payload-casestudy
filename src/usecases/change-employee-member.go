@@ -29,7 +29,7 @@ func (tx ChangeEmployeeToMember) Execute() (bool, error) {
 		return false, errors.New(fmt.Sprintf(`Member %d is already registered`, tx.MemberId))
 	}
 
-	be.Affiliation = entities.UnionAffiliation{tx.MemberId}
+	be.Affiliation = entities.UnionAffiliation{Id: tx.MemberId}
 	um := entities.NewUnionMember(tx.MemberId, tx.Dues)
 
 	tx.eRepo.PutUnionMember(um)

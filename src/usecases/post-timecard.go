@@ -25,7 +25,7 @@ func (tx PostTimecard) Execute() (bool, error) {
 	if !ok {
 		return false, errors.New(fmt.Sprintf(`Employee %d is not an Hourly Employee`, tx.EmpId))
 	}
-	he.Timecards = append(he.Timecards, entities.TimeCard{tx.Date, tx.Hours})
+	he.Timecards = append(he.Timecards, entities.TimeCard{Date: tx.Date, Hours: tx.Hours})
 	tx.eRepo.AddEmployee(he)
 	return true, nil
 }

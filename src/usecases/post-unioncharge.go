@@ -18,7 +18,7 @@ func (tx PostUnionCharge) Execute() (bool, error) {
 	if !ok {
 		return false, errors.New(fmt.Sprintf(`Member %d not found.`, tx.MemberId))
 	}
-	um.Charges = append(um.Charges, entities.UnionCharge{tx.Amount})
+	um.Charges = append(um.Charges, entities.UnionCharge{Amount: tx.Amount})
 	tx.empRepo.PutUnionMember(um)
 	return true, nil
 }

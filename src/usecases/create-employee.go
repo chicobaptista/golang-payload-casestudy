@@ -45,5 +45,4 @@ func (tx AddHourlyEmployee) Execute() (success bool, err error) {
 	e := entities.NewHourlyEmployee(tx.Id, tx.Name, tx.Address, tx.HourlyRate)
 	tx.eRepo.AddEmployee(e)
 	return true, nil
-	return true, nil
 }

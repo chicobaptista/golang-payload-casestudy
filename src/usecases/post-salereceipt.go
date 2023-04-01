@@ -25,7 +25,7 @@ func (tx PostSaleReceipt) Execute() (bool, error) {
 	if !ok {
 		return false, errors.New(fmt.Sprintf(`Employee %d is not a Commissioned Employee`, tx.Id))
 	}
-	ce.SaleReceipts = append(ce.SaleReceipts, entities.SaleReceipt{tx.Date, tx.Amount})
+	ce.SaleReceipts = append(ce.SaleReceipts, entities.SaleReceipt{Date: tx.Date, Amount: tx.Amount})
 	tx.eRepo.AddEmployee(ce)
 	return true, nil
 }

@@ -1,12 +1,13 @@
 package usecases
 
 import (
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/repositories"
 	"fmt"
 	"math"
 	"strings"
 	"testing"
+
+	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/repositories"
 )
 
 func TestPostUnionchargeToUnionMember(t *testing.T) {
@@ -14,7 +15,7 @@ func TestPostUnionchargeToUnionMember(t *testing.T) {
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	unionId := 1
-	er.PutUnionMember(entities.UnionMember{unionId, 20.00, make([]entities.UnionCharge, 0)})
+	er.PutUnionMember(entities.UnionMember{Id: unionId, Dues: 20.00, Charges: make([]entities.UnionCharge, 0)})
 
 	var tx Transaction
 	tx = PostUnionCharge{unionId, 10.00, er}
