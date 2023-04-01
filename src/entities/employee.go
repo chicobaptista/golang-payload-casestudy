@@ -1,18 +1,23 @@
 package entities
 
-import "errors"
+import (
+	"errors"
+	"time"
+)
 
 type Employee interface {
 	GetId() int
 	GetPayment() float64
+	IsPayday(date time.Time) bool
 }
 
 type BaseEmployee struct {
-	Id            int
-	Name          string
-	Address       string
-	PaymentMethod PaymentMethod
-	Affiliation   EmployeeAffiliation
+	Id              int
+	Name            string
+	Address         string
+	PaymentMethod   PaymentMethod
+	Affiliation     EmployeeAffiliation
+	PaymentSchedule PaymentSchedule
 }
 
 func (e BaseEmployee) GetId() int {
@@ -20,6 +25,9 @@ func (e BaseEmployee) GetId() int {
 }
 func (e BaseEmployee) GetPayment() float64 {
 	return 0
+}
+func (e BaseEmployee) IsPayday(date time.Time) bool {
+	return e.PaymentSchedule.IsPayday(date)
 }
 
 type EmployeeAffiliation interface {

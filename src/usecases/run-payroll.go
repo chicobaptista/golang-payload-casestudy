@@ -16,7 +16,9 @@ func (tx RunPayroll) Execute() (bool, error) {
 	empIds := tx.eRepo.GetAllEmployeeIds()
 	for _, id := range empIds {
 		e, _ := tx.eRepo.GetEmployee((id))
-		tx.Payroll[id] = Paycheck{Amount: e.GetPayment()}
+		if e.IsPayday(tx.Date) {
+			tx.Payroll[id] = Paycheck{Amount: e.GetPayment()}
+		}
 	}
 	return true, nil
 }

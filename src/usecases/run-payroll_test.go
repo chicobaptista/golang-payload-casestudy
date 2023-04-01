@@ -36,3 +36,23 @@ func TestRunPayrollOneSalariedEmployeeWithNoDeductions(t *testing.T) {
 		t.Fatalf(`Failed to process Payroll, want Paycheck Amount to be %f, got %f`, 1000.00, pc.Amount)
 	}
 }
+
+func TestRunPayrollOneSalariedEmployeeOutsidePaymentDate(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	er.AddEmployee(entities.NewSalariedEmployee(empId, "Bob", "Home", 1000.00))
+
+	tx := RunPayroll{time.Date(2023, 3, 30, 12, 30, 30, 100, time.Local), make(map[int]Paycheck), er}
+
+	tx.Execute()
+
+	pr := tx.Payroll
+
+	if len(pr) != 0 {
+		t.Fatalf("Failed to process Payroll, expected to have no entries")
+	}
+
+}
