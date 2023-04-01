@@ -15,6 +15,9 @@ type TimeCard struct {
 	Hours float64
 }
 
+var MAX_WORK_HOURS = 8.00
+var OVERTIME_EXTRA_RATE = 0.5
+
 func (e HourlyEmployee) GetPayment() float64 {
 	hoursWorked := getTotalHoursWorked(e.Timecards)
 	return hoursWorked * e.HourlyRate
@@ -24,8 +27,8 @@ func getTotalHoursWorked(tcs []TimeCard) float64 {
 	var hoursWorked float64
 	for _, tc := range tcs {
 		hoursWorked += tc.Hours
-		if tc.Hours > 8.00 {
-			hoursWorked += (tc.Hours - 8.00) * 0.5
+		if tc.Hours > MAX_WORK_HOURS {
+			hoursWorked += (tc.Hours - MAX_WORK_HOURS) * OVERTIME_EXTRA_RATE
 		}
 	}
 	return hoursWorked
