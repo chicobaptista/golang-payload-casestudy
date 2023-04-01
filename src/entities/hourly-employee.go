@@ -15,6 +15,14 @@ type TimeCard struct {
 	Hours float64
 }
 
+func (e HourlyEmployee) GetPayment() float64 {
+	var hoursWorked float64
+	for _, tc := range e.Timecards {
+		hoursWorked += tc.Hours
+	}
+	return hoursWorked * e.HourlyRate
+}
+
 func NewHourlyEmployee(id int, name string, address string, hourlyRate float64) HourlyEmployee {
 	return HourlyEmployee{BaseEmployee{id, name, address, HoldingPaymentMethod{}, NullAffiliation{}, WeeklyPaymentSchedule{}}, hourlyRate, make([]TimeCard, 0)}
 }
