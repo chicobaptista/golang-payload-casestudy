@@ -16,11 +16,16 @@ type TimeCard struct {
 }
 
 func (e HourlyEmployee) GetPayment() float64 {
+	hoursWorked := getTotalHoursWorked(e.Timecards)
+	return hoursWorked * e.HourlyRate
+}
+
+func getTotalHoursWorked(tcs []TimeCard) float64 {
 	var hoursWorked float64
-	for _, tc := range e.Timecards {
+	for _, tc := range tcs {
 		hoursWorked += tc.Hours
 	}
-	return hoursWorked * e.HourlyRate
+	return hoursWorked
 }
 
 func NewHourlyEmployee(id int, name string, address string, hourlyRate float64) HourlyEmployee {
