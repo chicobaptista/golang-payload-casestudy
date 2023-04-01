@@ -24,6 +24,9 @@ func getTotalHoursWorked(tcs []TimeCard) float64 {
 	var hoursWorked float64
 	for _, tc := range tcs {
 		hoursWorked += tc.Hours
+		if tc.Hours > 8.00 {
+			hoursWorked += (tc.Hours - 8.00) * 0.5
+		}
 	}
 	return hoursWorked
 }
