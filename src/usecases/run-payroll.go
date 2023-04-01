@@ -15,7 +15,13 @@ type Paycheck struct {
 func (tx RunPayroll) Execute() (bool, error) {
 	empIds := tx.eRepo.GetAllEmployeeIds()
 	for _, id := range empIds {
-		tx.Payroll[id] = Paycheck{Amount: 0}
+		e, _ := tx.eRepo.GetEmployee((id))
+		tx.Payroll[id] = Paycheck{Amount: e.GetPayment()}
 	}
 	return true, nil
+}
+
+func (tx RunPayroll) GetPaycheck(empId int) (Paycheck, bool) {
+	pc, ok := tx.Payroll[empId]
+	return pc, ok
 }

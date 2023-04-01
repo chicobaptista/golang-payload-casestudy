@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"math"
 	"testing"
 	"time"
 
@@ -24,5 +25,14 @@ func TestRunPayrollOneSalariedEmployeeWithNoDeductions(t *testing.T) {
 
 	if len(pr) != 1 {
 		t.Fatalf("Failed to process Payroll, expected to have 1 entry")
+	}
+
+	pc, ok := tx.GetPaycheck(empId)
+	if !ok {
+		t.Fatalf(`Failed to process Payroll, expected to have paycheck for Employee %d.`, empId)
+	}
+
+	if diff := math.Abs(1000.00 - pc.Amount); diff > 0.001 {
+		t.Fatalf(`Failed to process Payroll, want Paycheck Amount to be %f, got %f`, 1000.00, pc.Amount)
 	}
 }

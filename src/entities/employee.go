@@ -4,6 +4,7 @@ import "errors"
 
 type Employee interface {
 	GetId() int
+	GetPayment() float64
 }
 
 type BaseEmployee struct {
@@ -16,6 +17,9 @@ type BaseEmployee struct {
 
 func (e BaseEmployee) GetId() int {
 	return e.Id
+}
+func (e BaseEmployee) GetPayment() float64 {
+	return 0
 }
 
 type EmployeeAffiliation interface {
