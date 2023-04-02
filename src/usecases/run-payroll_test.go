@@ -175,7 +175,7 @@ func TestRunPayrollOneCommissionedEmployeeWithNoDeductions(t *testing.T) {
 
 	er.AddEmployee(entities.NewCommissionedEmployee(empId, "Bob", "Home", 1000.00, 10.00))
 
-	tx := RunPayroll{time.Date(2023, 3, 31, 12, 30, 30, 100, time.Local), make(map[int]Paycheck), er}
+	tx := RunPayroll{time.Date(2023, 3, 24, 12, 30, 30, 100, time.Local), make(map[int]Paycheck), er}
 
 	tx.Execute()
 
@@ -190,7 +190,55 @@ func TestRunPayrollOneCommissionedEmployeeWithNoDeductions(t *testing.T) {
 		t.Fatalf(`Failed to process Payroll, expected to have paycheck for Employee %d.`, empId)
 	}
 
-	if diff := math.Abs(1000.00 - pc.Amount); diff > 0.001 {
-		t.Fatalf(`Failed to process Payroll, want Paycheck Amount to be %f, got %f`, 1000.00, pc.Amount)
+	if diff := math.Abs(500.00 - pc.Amount); diff > 0.001 {
+		t.Fatalf(`Failed to process Payroll, want Paycheck Amount to be %f, got %f`, 500.00, pc.Amount)
 	}
+}
+
+func TestRunPayrollOneCommissionedEmployeeWithNoDeductionsOnSecondFriday(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	er.AddEmployee(entities.NewCommissionedEmployee(empId, "Bob", "Home", 1000.00, 10.00))
+
+	tx := RunPayroll{time.Date(2023, 3, 10, 12, 30, 30, 100, time.Local), make(map[int]Paycheck), er}
+
+	tx.Execute()
+
+	pr := tx.Payroll
+
+	if len(pr) != 1 {
+		t.Fatalf("Failed to process Payroll, expected to have 1 entry")
+	}
+
+	pc, ok := tx.GetPaycheck(empId)
+	if !ok {
+		t.Fatalf(`Failed to process Payroll, expected to have paycheck for Employee %d.`, empId)
+	}
+
+	if diff := math.Abs(500.00 - pc.Amount); diff > 0.001 {
+		t.Fatalf(`Failed to process Payroll, want Paycheck Amount to be %f, got %f`, 500.00, pc.Amount)
+	}
+}
+
+func TestRunPayrollOneCommissionedEmployeeOutsidePaymentDate(t *testing.T) {
+	var er EmployeeRepository
+	er = repositories.MakeInMemoryEmployeeRepository()
+
+	empId := 1
+
+	er.AddEmployee(entities.NewCommissionedEmployee(empId, "Bob", "Home", 1000.00, 10.00))
+
+	tx := RunPayroll{time.Date(2023, 3, 31, 12, 30, 30, 100, time.Local), make(map[int]Paycheck), er}
+
+	tx.Execute()
+
+	pr := tx.Payroll
+
+	if len(pr) != 0 {
+		t.Fatalf("Failed to process Payroll, expected to have no entries")
+	}
+
 }

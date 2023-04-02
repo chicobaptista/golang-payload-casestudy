@@ -16,6 +16,15 @@ func (sch MonthlyPaymentSchedule) IsPayday(date time.Time) bool {
 	return isLastFriday
 }
 
+type BiWeeklyPaymentSchedule struct{}
+
+func (sch BiWeeklyPaymentSchedule) IsPayday(date time.Time) bool {
+	isFriday := date.Weekday() == time.Friday
+	_, isoWeek := date.ISOWeek()
+	isEvenWeek := isoWeek%2 == 0
+	return isFriday && isEvenWeek
+}
+
 type WeeklyPaymentSchedule struct {
 }
 
