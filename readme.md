@@ -37,6 +37,8 @@ The following use cases must be implemented in the system:
 >
 >   If the transaction structure is innapropriate, it is printed out in an error message, and no action is taken.
 
+For more details, read the use case docs [here](./src/usecases/create-employee/create-employee.md)
+
 ### Use Case 2: Deleting an Employee
 
 > Employees are deleted when a `DelEmp` transaction is received. The form of the transaction is as follows:
