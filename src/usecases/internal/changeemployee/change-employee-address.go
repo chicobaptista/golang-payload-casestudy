@@ -1,4 +1,4 @@
-package usecases
+package changeemployee
 
 import (
 	"errors"
@@ -8,20 +8,20 @@ import (
 	"chicobaptista.github.com/usecases/interfaces"
 )
 
-type ChangeEmployeeToDirect struct {
+type ChangeEmployeeAddress struct {
 	Id      int
-	Agency  string
-	Account string
+	Address string
 	eRepo   interfaces.EmployeeRepository
 }
 
-func (tx ChangeEmployeeToDirect) Execute() (bool, error) {
+func (tx ChangeEmployeeAddress) Execute() (bool, error) {
 	e, ok := tx.eRepo.GetEmployee(tx.Id)
 	if !ok {
 		return false, errors.New(fmt.Sprintf(`Employee %d not found`, tx.Id))
 	}
-	be, _ := e.(entities.BaseEmployee)
-	be.PaymentMethod = entities.DirectPaymentMethod{Agency: tx.Agency, Account: tx.Account}
+	be, ok := e.(entities.BaseEmployee)
+
+	be.Address = tx.Address
 
 	tx.eRepo.AddEmployee(be)
 	return true, nil
