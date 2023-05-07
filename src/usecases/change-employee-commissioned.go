@@ -5,13 +5,14 @@ import (
 	"fmt"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type ChangeEmployeeToCommissioned struct {
 	Id             int
 	Salary         float64
 	CommissionRate float64
-	eRepo          EmployeeRepository
+	eRepo          interfaces.EmployeeRepository
 }
 
 func (tx ChangeEmployeeToCommissioned) Execute() (bool, error) {

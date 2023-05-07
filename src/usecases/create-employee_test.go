@@ -1,19 +1,21 @@
 package usecases
 
 import (
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/repositories"
 	"math"
 	"testing"
+
+	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/repositories"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 func TestAddSalariedEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = AddSalariedEmployee{empId, "Bob", "Home", 1000.00, er}
 
 	tx.Execute()
@@ -39,12 +41,12 @@ func TestAddSalariedEmployee(t *testing.T) {
 }
 
 func TestAddCommissionedEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = AddCommissionedEmployee{empId, "Bob", "Home", 1000.00, 10, er}
 
 	tx.Execute()
@@ -78,12 +80,12 @@ func TestAddCommissionedEmployee(t *testing.T) {
 }
 
 func TestAddHourlyEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = AddHourlyEmployee{empId, "Bob", "Home", 15.00, er}
 
 	tx.Execute()

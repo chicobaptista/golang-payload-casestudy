@@ -5,12 +5,13 @@ import (
 	"fmt"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type PostUnionCharge struct {
 	MemberId int
 	Amount   float64
-	empRepo  EmployeeRepository
+	empRepo  interfaces.EmployeeRepository
 }
 
 func (tx PostUnionCharge) Execute() (bool, error) {

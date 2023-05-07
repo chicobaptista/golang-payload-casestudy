@@ -5,13 +5,14 @@ import (
 	"fmt"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type ChangeEmployeeToDirect struct {
 	Id      int
 	Agency  string
 	Account string
-	eRepo   EmployeeRepository
+	eRepo   interfaces.EmployeeRepository
 }
 
 func (tx ChangeEmployeeToDirect) Execute() (bool, error) {

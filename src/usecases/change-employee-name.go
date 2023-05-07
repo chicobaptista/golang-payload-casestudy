@@ -5,12 +5,13 @@ import (
 	"fmt"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type ChangeEmployeeName struct {
 	Id    int
 	Name  string
-	eRepo EmployeeRepository
+	eRepo interfaces.EmployeeRepository
 }
 
 func (tx ChangeEmployeeName) Execute() (bool, error) {

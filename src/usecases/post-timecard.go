@@ -6,13 +6,14 @@ import (
 	"time"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type PostTimecard struct {
 	EmpId int
 	Date  time.Time
 	Hours float64
-	eRepo EmployeeRepository
+	eRepo interfaces.EmployeeRepository
 }
 
 func (tx PostTimecard) Execute() (bool, error) {

@@ -8,16 +8,17 @@ import (
 
 	"chicobaptista.github.com/entities"
 	"chicobaptista.github.com/repositories"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 func TestPostUnionchargeToUnionMember(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	unionId := 1
 	er.PutUnionMember(entities.UnionMember{Id: unionId, Dues: 20.00, Charges: make([]entities.UnionCharge, 0)})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = PostUnionCharge{unionId, 10.00, er}
 
 	tx.Execute()
@@ -34,12 +35,12 @@ func TestPostUnionchargeToUnionMember(t *testing.T) {
 }
 
 func TestPostUnionchargeToNonMember(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	unionId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = PostUnionCharge{unionId, 10.00, er}
 
 	_, err := tx.Execute()

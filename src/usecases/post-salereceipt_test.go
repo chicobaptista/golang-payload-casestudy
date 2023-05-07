@@ -1,23 +1,25 @@
 package usecases
 
 import (
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/repositories"
 	"fmt"
 	"strings"
 	"testing"
 	"time"
+
+	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/repositories"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 func TestPostSalesReceiptToCommissionedEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	e := entities.NewCommissionedEmployee(empId, "Bob", "Home", 1000.00, 10.00)
 	er.AddEmployee(e)
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = PostSaleReceipt{empId, time.Date(2023, 3, 31, 12, 30, 30, 100, time.Local), 100.00, er}
 
 	tx.Execute()
@@ -42,14 +44,14 @@ func TestPostSalesReceiptToCommissionedEmployee(t *testing.T) {
 }
 
 func TestPostSalesReceiptToHourlyEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	e := entities.NewHourlyEmployee(empId, "Bob", "Home", 15.00)
 	er.AddEmployee(e)
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = PostSaleReceipt{empId, time.Date(2023, 3, 31, 12, 30, 30, 100, time.Local), 100.00, er}
 
 	_, err := tx.Execute()
@@ -59,14 +61,14 @@ func TestPostSalesReceiptToHourlyEmployee(t *testing.T) {
 }
 
 func TestPostSalesReceiptToSalariedEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	e := entities.NewSalariedEmployee(empId, "Bob", "Home", 1000.00)
 	er.AddEmployee(e)
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = PostSaleReceipt{empId, time.Date(2023, 3, 31, 12, 30, 30, 100, time.Local), 100.00, er}
 
 	_, err := tx.Execute()

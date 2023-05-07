@@ -1,21 +1,23 @@
 package usecases
 
 import (
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/repositories"
 	"fmt"
 	"strings"
 	"testing"
+
+	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/repositories"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 func TestDeleteExistingEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.NewSalariedEmployee(empId, "Bob", "Home", 1000.00))
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = DeleteEmployee{empId, er}
 	tx.Execute()
 
@@ -28,12 +30,12 @@ func TestDeleteExistingEmployee(t *testing.T) {
 }
 
 func TestDeleteNonExistingEmployee(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = DeleteEmployee{empId, er}
 	_, err := tx.Execute()
 

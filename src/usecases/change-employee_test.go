@@ -8,16 +8,17 @@ import (
 
 	"chicobaptista.github.com/entities"
 	"chicobaptista.github.com/repositories"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 func TestChangeEmployeeName(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.HoldingPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeName{empId, "Jeff", er}
 
 	tx.Execute()
@@ -31,12 +32,12 @@ func TestChangeEmployeeName(t *testing.T) {
 }
 
 func TestChangeEmployeeNameOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeName{empId, "Jeff", er}
 
 	_, err := tx.Execute()
@@ -47,13 +48,13 @@ func TestChangeEmployeeNameOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeAddress(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.HoldingPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeAddress{empId, "Work", er}
 
 	tx.Execute()
@@ -67,12 +68,12 @@ func TestChangeEmployeeAddress(t *testing.T) {
 }
 
 func TestChangeEmployeeAddressOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeAddress{empId, "Work", er}
 
 	_, err := tx.Execute()
@@ -83,13 +84,13 @@ func TestChangeEmployeeAddressOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToHourly(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.HoldingPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToHourly{empId, 15.00, er}
 
 	tx.Execute()
@@ -112,12 +113,12 @@ func TestChangeEmployeeToHourly(t *testing.T) {
 }
 
 func TestChangeEmployeeToHourlyOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToHourly{empId, 15.00, er}
 
 	_, err := tx.Execute()
@@ -128,13 +129,13 @@ func TestChangeEmployeeToHourlyOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToSalaried(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.HoldingPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
 
 	tx.Execute()
@@ -153,12 +154,12 @@ func TestChangeEmployeeToSalaried(t *testing.T) {
 }
 
 func TestChangeEmployeeToSalariedOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToSalaried{empId, 1000.00, er}
 
 	_, err := tx.Execute()
@@ -169,13 +170,13 @@ func TestChangeEmployeeToSalariedOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToCommissioned(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.HoldingPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
 
 	tx.Execute()
@@ -202,12 +203,12 @@ func TestChangeEmployeeToCommissioned(t *testing.T) {
 }
 
 func TestChangeEmployeeToCommissionedOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToCommissioned{empId, 1000.00, 10.00, er}
 
 	_, err := tx.Execute()
@@ -218,13 +219,13 @@ func TestChangeEmployeeToCommissionedOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToHoldingPaymentMethod(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToHolding{empId, er}
 
 	tx.Execute()
@@ -240,12 +241,12 @@ func TestChangeEmployeeToHoldingPaymentMethod(t *testing.T) {
 }
 
 func TestChangeEmployeeToHoldingPaymentMethodOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToHolding{empId, er}
 
 	_, err := tx.Execute()
@@ -256,13 +257,13 @@ func TestChangeEmployeeToHoldingPaymentMethodOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToMailPaymentMethod(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToMail{empId, "Work", er}
 
 	tx.Execute()
@@ -283,12 +284,12 @@ func TestChangeEmployeeToMailPaymentMethod(t *testing.T) {
 }
 
 func TestChangeEmployeeToMailPaymentMethodOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToMail{empId, "Work", er}
 
 	_, err := tx.Execute()
@@ -299,13 +300,13 @@ func TestChangeEmployeeToMailPaymentMethodOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToDirectPaymentMethod(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToDirect{empId, "Agency", "Account", er}
 
 	tx.Execute()
@@ -330,12 +331,12 @@ func TestChangeEmployeeToDirectPaymentMethod(t *testing.T) {
 }
 
 func TestChangeEmployeeToDirectPaymentMethodOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToDirect{empId, "Agency", "Account", er}
 
 	_, err := tx.Execute()
@@ -346,14 +347,14 @@ func TestChangeEmployeeToDirectPaymentMethodOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToUnionMember(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 	unionId := 86
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
 
 	tx.Execute()
@@ -369,13 +370,13 @@ func TestChangeEmployeeToUnionMember(t *testing.T) {
 }
 
 func TestChangeEmployeeToUnionMemberOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 	unionId := 86
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
 
 	_, err := tx.Execute()
@@ -386,7 +387,7 @@ func TestChangeEmployeeToUnionMemberOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeToUnionMemberOfAlreadyMember(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
@@ -394,7 +395,7 @@ func TestChangeEmployeeToUnionMemberOfAlreadyMember(t *testing.T) {
 	unionId := 86
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.UnionAffiliation{Id: unionId}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
 
 	_, err := tx.Execute()
@@ -405,7 +406,7 @@ func TestChangeEmployeeToUnionMemberOfAlreadyMember(t *testing.T) {
 }
 
 func TestChangeEmployeeToUnionMemberOfExistingMemberId(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
@@ -414,7 +415,7 @@ func TestChangeEmployeeToUnionMemberOfExistingMemberId(t *testing.T) {
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 	er.PutUnionMember(entities.UnionMember{Id: unionId, Dues: 10.00, Charges: make([]entities.UnionCharge, 0)})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeToMember{empId, unionId, 100.00, er}
 
 	_, err := tx.Execute()
@@ -425,7 +426,7 @@ func TestChangeEmployeeToUnionMemberOfExistingMemberId(t *testing.T) {
 }
 
 func TestChangeEmployeeRemoveUnionMember(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
@@ -433,7 +434,7 @@ func TestChangeEmployeeRemoveUnionMember(t *testing.T) {
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.UnionAffiliation{Id: unionId}})
 	er.PutUnionMember(entities.UnionMember{Id: unionId, Dues: 10.00, Charges: make([]entities.UnionCharge, 0)})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeRemoveMember{empId, er}
 
 	tx.Execute()
@@ -447,12 +448,12 @@ func TestChangeEmployeeRemoveUnionMember(t *testing.T) {
 }
 
 func TestChangeEmployeeRemoveUnionMemberOfNonExisting(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeRemoveMember{empId, er}
 
 	_, err := tx.Execute()
@@ -463,14 +464,14 @@ func TestChangeEmployeeRemoveUnionMemberOfNonExisting(t *testing.T) {
 }
 
 func TestChangeEmployeeRemoveUnionMemberOfNonMember(t *testing.T) {
-	var er EmployeeRepository
+	var er interfaces.EmployeeRepository
 	er = repositories.MakeInMemoryEmployeeRepository()
 
 	empId := 1
 
 	er.AddEmployee(entities.BaseEmployee{Id: empId, Name: "Bob", Address: "Home", PaymentMethod: entities.MailPaymentMethod{}, Affiliation: entities.NullAffiliation{}})
 
-	var tx Transaction
+	var tx interfaces.Transaction
 	tx = ChangeEmployeeRemoveMember{empId, er}
 
 	_, err := tx.Execute()

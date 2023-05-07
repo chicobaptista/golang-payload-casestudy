@@ -6,13 +6,14 @@ import (
 	"time"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type PostSaleReceipt struct {
 	Id     int
 	Date   time.Time
 	Amount float64
-	eRepo  EmployeeRepository
+	eRepo  interfaces.EmployeeRepository
 }
 
 func (tx PostSaleReceipt) Execute() (bool, error) {

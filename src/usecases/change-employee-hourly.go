@@ -5,12 +5,13 @@ import (
 	"fmt"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type ChangeEmployeeToHourly struct {
 	Id         int
 	HourlyRate float64
-	eRepo      EmployeeRepository
+	eRepo      interfaces.EmployeeRepository
 }
 
 func (tx ChangeEmployeeToHourly) Execute() (bool, error) {

@@ -5,13 +5,14 @@ import (
 	"fmt"
 
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type ChangeEmployeeToMember struct {
 	EmpId    int
 	MemberId int
 	Dues     float64
-	eRepo    EmployeeRepository
+	eRepo    interfaces.EmployeeRepository
 }
 
 func (tx ChangeEmployeeToMember) Execute() (bool, error) {

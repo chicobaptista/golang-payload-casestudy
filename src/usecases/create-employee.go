@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type AddSalariedEmployee struct {
@@ -9,7 +10,7 @@ type AddSalariedEmployee struct {
 	Name    string
 	Address string
 	Salary  float64
-	eRepo   EmployeeRepository
+	eRepo   interfaces.EmployeeRepository
 }
 
 func (tx AddSalariedEmployee) Execute() (success bool, err error) {
@@ -24,7 +25,7 @@ type AddCommissionedEmployee struct {
 	Address        string
 	Salary         float64
 	CommissionRate float64
-	eRepo          EmployeeRepository
+	eRepo          interfaces.EmployeeRepository
 }
 
 func (tx AddCommissionedEmployee) Execute() (success bool, err error) {
@@ -38,7 +39,7 @@ type AddHourlyEmployee struct {
 	Name       string
 	Address    string
 	HourlyRate float64
-	eRepo      EmployeeRepository
+	eRepo      interfaces.EmployeeRepository
 }
 
 func (tx AddHourlyEmployee) Execute() (success bool, err error) {

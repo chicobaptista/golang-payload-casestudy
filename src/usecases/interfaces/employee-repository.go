@@ -1,4 +1,4 @@
-package usecases
+package interfaces
 
 import "chicobaptista.github.com/entities"
 

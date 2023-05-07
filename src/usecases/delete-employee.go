@@ -3,11 +3,13 @@ package usecases
 import (
 	"errors"
 	"fmt"
+
+	"chicobaptista.github.com/usecases/interfaces"
 )
 
 type DeleteEmployee struct {
 	Id    int
-	eRepo EmployeeRepository
+	eRepo interfaces.EmployeeRepository
 }
 
 func (tx DeleteEmployee) Execute() (bool, error) {
