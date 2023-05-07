@@ -5,8 +5,32 @@ import (
 	"chicobaptista.github.com/usecases/interfaces"
 )
 
-type CreateEmployeeBehavior interface {
-	generateEmployee() entities.Employee
+var HOURLY = "H"
+var SALARY = "S"
+var COMISSIONED = "C"
+
+type CreateEmployeeRequest struct {
+	Type          string
+	Id            int
+	Name          string
+	Address       string
+	HourlyRate    float64
+	Salary        float64
+	ComissionRate float64
+}
+
+func MakeCreateEmployee(req CreateEmployeeRequest, er interfaces.EmployeeRepository) CreateEmployee {
+
+	switch req.Type {
+	case HOURLY:
+		return CreateEmployee{CreateHourlyEmployee{req.Id, req.Name, req.Address, req.HourlyRate}, er}
+	case SALARY:
+		return CreateEmployee{CreateSalariedEmployee{req.Id, req.Name, req.Address, req.Salary}, er}
+	case COMISSIONED:
+		return CreateEmployee{CreateCommissionedEmployee{req.Id, req.Name, req.Address, req.Salary, req.ComissionRate}, er}
+	default:
+		panic("Employee type not supported")
+	}
 }
 
 type CreateEmployee struct {
@@ -22,4 +46,8 @@ func (tx CreateEmployee) Execute() (success bool, err error) {
 
 func (tx CreateEmployee) saveEmployee(e entities.Employee) {
 	tx.eRepo.AddEmployee(e)
+}
+
+type CreateEmployeeBehavior interface {
+	generateEmployee() entities.Employee
 }

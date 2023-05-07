@@ -16,7 +16,7 @@ func TestAddSalariedEmployee(t *testing.T) {
 	empId := 1
 
 	var tx interfaces.Transaction
-	tx = CreateEmployee{CreateSalariedEmployee{empId, "Bob", "Home", 1000.00}, er}
+	tx = MakeCreateEmployee(CreateEmployeeRequest{Type: SALARY, Id: empId, Name: "Bob", Address: "Home", Salary: 1000.00}, er)
 
 	tx.Execute()
 
@@ -47,7 +47,7 @@ func TestAddCommissionedEmployee(t *testing.T) {
 	empId := 1
 
 	var tx interfaces.Transaction
-	tx = CreateEmployee{CreateCommissionedEmployee{empId, "Bob", "Home", 1000.00, 10}, er}
+	tx = MakeCreateEmployee(CreateEmployeeRequest{Type: COMISSIONED, Id: empId, Name: "Bob", Address: "Home", Salary: 1000.00, ComissionRate: 10.00}, er)
 
 	tx.Execute()
 
@@ -86,7 +86,8 @@ func TestAddHourlyEmployee(t *testing.T) {
 	empId := 1
 
 	var tx interfaces.Transaction
-	tx = CreateEmployee{CreateHourlyEmployee{empId, "Bob", "Home", 15.00}, er}
+
+	tx = MakeCreateEmployee(CreateEmployeeRequest{Type: HOURLY, Id: empId, Name: "Bob", Address: "Home", HourlyRate: 15.00}, er)
 
 	tx.Execute()
 
