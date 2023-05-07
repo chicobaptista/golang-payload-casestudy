@@ -86,7 +86,7 @@ func TestAddHourlyEmployee(t *testing.T) {
 	empId := 1
 
 	var tx interfaces.Transaction
-	tx = CreateHourlyEmployee{empId, "Bob", "Home", 15.00, er}
+	tx = CreateEmployee{CreateHourlyEmployee{empId, "Bob", "Home", 15.00, er}}
 
 	tx.Execute()
 

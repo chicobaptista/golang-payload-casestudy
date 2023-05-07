@@ -13,8 +13,10 @@ type CreateHourlyEmployee struct {
 	eRepo      interfaces.EmployeeRepository
 }
 
-func (tx CreateHourlyEmployee) Execute() (success bool, err error) {
-	e := entities.NewHourlyEmployee(tx.Id, tx.Name, tx.Address, tx.HourlyRate)
-	tx.eRepo.AddEmployee(e)
-	return true, nil
+func (ceBhv CreateHourlyEmployee) generateEmployee() entities.Employee {
+	return entities.NewHourlyEmployee(ceBhv.Id, ceBhv.Name, ceBhv.Address, ceBhv.HourlyRate)
+}
+
+func (ceBhv CreateHourlyEmployee) saveEmployee(e entities.Employee) {
+	ceBhv.eRepo.AddEmployee(e)
 }
