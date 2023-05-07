@@ -1,4 +1,4 @@
-package usecases
+package postsalesreceipt
 
 import (
 	"errors"
