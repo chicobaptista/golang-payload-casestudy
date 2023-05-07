@@ -14,8 +14,10 @@ type CreateCommissionedEmployee struct {
 	eRepo          interfaces.EmployeeRepository
 }
 
-func (tx CreateCommissionedEmployee) Execute() (success bool, err error) {
-	e := entities.NewCommissionedEmployee(tx.Id, tx.Name, tx.Address, tx.Salary, tx.CommissionRate)
-	tx.eRepo.AddEmployee(e)
-	return true, nil
+func (ceBhv CreateCommissionedEmployee) generateEmployee() entities.Employee {
+	return entities.NewCommissionedEmployee(ceBhv.Id, ceBhv.Name, ceBhv.Address, ceBhv.Salary, ceBhv.CommissionRate)
+}
+
+func (ceBhv CreateCommissionedEmployee) saveEmployee(e entities.Employee) {
+	ceBhv.eRepo.AddEmployee(e)
 }

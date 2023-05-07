@@ -13,8 +13,10 @@ type CreateSalariedEmployee struct {
 	eRepo   interfaces.EmployeeRepository
 }
 
-func (tx CreateSalariedEmployee) Execute() (success bool, err error) {
-	e := entities.NewSalariedEmployee(tx.Id, tx.Name, tx.Address, tx.Salary)
-	tx.eRepo.AddEmployee(e)
-	return true, nil
+func (ceBhv CreateSalariedEmployee) generateEmployee() entities.Employee {
+	return entities.NewSalariedEmployee(ceBhv.Id, ceBhv.Name, ceBhv.Address, ceBhv.Salary)
+}
+
+func (ceBhv CreateSalariedEmployee) saveEmployee(e entities.Employee) {
+	ceBhv.eRepo.AddEmployee(e)
 }
