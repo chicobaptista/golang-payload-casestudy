@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/repositories"
-	"chicobaptista.github.com/usecases/interfaces"
+	"chicobaptista.github.com/payrollcasestudy/entities"
+	"chicobaptista.github.com/payrollcasestudy/repositories"
+	"chicobaptista.github.com/payrollcasestudy/usecases/interfaces"
 )
 
 func TestPostTimecardToHourlyEmployee(t *testing.T) {

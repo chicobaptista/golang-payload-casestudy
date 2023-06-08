@@ -1,6 +1,6 @@
 package interfaces
 
-import "chicobaptista.github.com/entities"
+import "chicobaptista.github.com/payrollcasestudy/entities"
 
 type EmployeeRepository interface {
 	GetEmployee(empId int) (entities.Employee, bool)

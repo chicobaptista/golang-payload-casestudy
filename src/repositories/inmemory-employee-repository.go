@@ -1,6 +1,6 @@
 package repositories
 
-import "chicobaptista.github.com/entities"
+import "chicobaptista.github.com/payrollcasestudy/entities"
 
 type InMemoryEmployeeRepository struct {
 	employees    map[int]entities.Employee

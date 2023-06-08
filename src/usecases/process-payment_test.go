@@ -1,9 +1,10 @@
 package usecases
 
 import (
-	"chicobaptista.github.com/entities"
 	"testing"
 	"time"
+
+	"chicobaptista.github.com/payrollcasestudy/entities"
 )
 
 func TestIsPaydayForSalariedEmployee(t *testing.T) {

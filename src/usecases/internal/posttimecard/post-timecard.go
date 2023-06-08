@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/usecases/interfaces"
+	"chicobaptista.github.com/payrollcasestudy/entities"
+	"chicobaptista.github.com/payrollcasestudy/usecases/interfaces"
 )
 
 type PostTimecard struct {

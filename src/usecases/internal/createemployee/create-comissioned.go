@@ -1,7 +1,7 @@
 package createemployee
 
 import (
-	"chicobaptista.github.com/entities"
+	"chicobaptista.github.com/payrollcasestudy/entities"
 )
 
 type CreateCommissionedEmployee struct {

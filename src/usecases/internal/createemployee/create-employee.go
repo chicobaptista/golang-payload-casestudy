@@ -1,8 +1,8 @@
 package createemployee
 
 import (
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/usecases/interfaces"
+	"chicobaptista.github.com/payrollcasestudy/entities"
+	"chicobaptista.github.com/payrollcasestudy/usecases/interfaces"
 )
 
 var HOURLY = "H"

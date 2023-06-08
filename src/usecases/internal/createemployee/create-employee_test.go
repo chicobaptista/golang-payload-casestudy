@@ -4,9 +4,9 @@ import (
 	"math"
 	"testing"
 
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/repositories"
-	"chicobaptista.github.com/usecases/interfaces"
+	"chicobaptista.github.com/payrollcasestudy/entities"
+	"chicobaptista.github.com/payrollcasestudy/repositories"
+	"chicobaptista.github.com/payrollcasestudy/usecases/interfaces"
 )
 
 func TestAddSalariedEmployee(t *testing.T) {

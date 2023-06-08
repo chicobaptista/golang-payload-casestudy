@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"chicobaptista.github.com/usecases/interfaces"
+	"chicobaptista.github.com/payrollcasestudy/usecases/interfaces"
 )
 
 type DeleteEmployee struct {

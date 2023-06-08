@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"chicobaptista.github.com/entities"
-	"chicobaptista.github.com/usecases/interfaces"
+	"chicobaptista.github.com/payrollcasestudy/entities"
+	"chicobaptista.github.com/payrollcasestudy/usecases/interfaces"
 )
 
 type ChangeEmployeeToMail struct {
